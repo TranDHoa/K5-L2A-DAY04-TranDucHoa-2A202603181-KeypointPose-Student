@@ -6,13 +6,13 @@ Dữ liệu: 12 ảnh người COCO val2017 (Lin et al., 2014) và 8 ảnh chân
 
 ## 0. Thông tin học viên
 
-- Họ tên:
-- MSSV:
-- Email:
-- Link repository:
-- Phiên bản CVAT (Help → About):
-- Máy: hệ điều hành ___ · RAM ___ GB · chạy CVAT chế độ đầy đủ / lite
-- Bộ ảnh (`src/exports/assignment.json` do `lab.py setup` tạo): có / không
+- Họ tên:Trần Đức Hòa
+- MSSV:2A202603181
+- Email:26ai.hoatd@vinuni.edu.vn
+- Link repository:https://github.com/TranDHoa/K5-L2A-DAY04-TranDucHoa-2A202603181-KeypointPose-Student.git
+- Phiên bản CVAT (Help → About):2.74.1
+- Máy: hệ điều hành Window · RAM 16 GB · chạy CVAT chế độ đầy đủ 
+- Bộ ảnh (`src/exports/assignment.json` do `lab.py setup` tạo): có 
 - Giờ bắt đầu:
 - Giờ kết thúc:
 
@@ -20,31 +20,30 @@ Dữ liệu: 12 ảnh người COCO val2017 (Lin et al., 2014) và 8 ảnh chân
 
 | Label | Kiểu | Số điểm | Tên điểm đúng bảng của lab? | Đúng thứ tự? | Số cạnh |
 |---|---|---:|---|---|---:|
-| `person` | | | | | |
-| `face` | | | | | |
+| `person` | skeleton | 17 | Đúng | Đúng | 19 |
+| `face` | skeleton | 13 | Đúng | Đúng | 13 |
 
-Mẫu `person` dựng theo người quay mặt về camera (các điểm `left_*` nằm bên phải khung mẫu)? Có / Không
+Mẫu `person` dựng theo người quay mặt về camera (các điểm `left_*` nằm bên phải khung mẫu)? Không
 
 Cách đổi cờ `occluded` / `outside` cho **một điểm** trên phiên bản CVAT này (một câu):
 
-...
+- Bấm vào điểm, bấm  o để báo outside, bấm q để báo điểm occluded
+
 
 ## 2. Số lượng đã gán và thời gian (CP1, CP2)
 
 | Nhóm ảnh | Số ảnh | Số skeleton đã gán | Số người dưới 60 px (không gán) | Số poster / gương / màn hình bỏ qua | Thời gian (phút) |
 |---|---:|---:|---:|---:|---:|
-| `easy` | 5 | | | | |
-| `occluded` | 3 | | | | |
-| `back` | 2 | | | | |
-| `small` | 1 | | | | |
-| `crowd` | 1 | | | | |
-| `faces` | 8 | | — | | |
+| `easy` | 5 | 5 |  |  | |
+| `occluded` | 3 |  |  | | |
+| `back` | 2 | 2 |  | | |
+| `small` | 1 | 1 | | | |
+| `crowd` | 1 | 1 | | | |
+| `faces` | 8 | 8 | — | | |
 
-- Số ảnh người đã xong ở mốc phút 105: ___ / 10
+- Số ảnh người đã xong ở mốc phút 105:  / 10
 - Thời gian thực tế (phút): CP1 ___ · CP2 ___ · CP3 ___
 - Ảnh tốn thời gian nhất là ảnh nào, vì sao?
-
-...
 
 ## 3. Bảng ca khó (CP1, CP2)
 
@@ -52,7 +51,8 @@ Mỗi điểm bạn phân vân một dòng, nhất là phân vân giữa `v = 1`
 
 | Ảnh | Người / mặt | Điểm | Cờ đã chọn | Phân vân giữa | Lý do chọn |
 |---|---|---|---:|---|---|
-| | | | | | |
+| face_223746.jpg | Mặt | right_eye_inner | 1 | 0 | Không nhìn thấy phần đó  |
+| face_223746.jpg | Mặt | right_eye_outer | 1 | 0 | Không nhìn thấy phần đó  |
 | | | | | | |
 | | | | | | |
 
@@ -64,10 +64,14 @@ Mã lỗi dùng đúng một trong: `lr_swap`, `vis_flag`, `position`, `missing`
 
 | Ảnh | Người / mặt | Điểm | Mã lỗi | Ghi chú | Đã sửa? |
 |---|---|---|---|---|---|
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
+| 000000100510.jpg | Người |  | missing | quên label | Đã sửa |
+| 000000515309.jpg | Người | ok | ok | ok | ok |
+| 000000365099.jpg | Người | ok | ok | ok | ok |
+| 000000349521.jpg | Người | ok | ok | ok | ok |
+| 000000314154.jpg | Người | ok | ok | ok | ok |
+| face_10579.jpg | Mặt | ok | ok | ok | ok |
+| face_223746.jpg | Mặt | ok | ok | ok | ok |
+| face_359139.jpg | Mặt | ok | ok | ok | ok |
 | | | | | | |
 | | | | | | |
 | | | | | | |
@@ -77,11 +81,10 @@ Tổng hợp số lỗi theo mã:
 
 | `lr_swap` | `vis_flag` | `position` | `missing` | `extra` | `ok` |
 |---:|---:|---:|---:|---:|---:|
-| | | | | | |
+| 0 | 0 | 0 | 1 | 0 | 1 |
 
 Điểm còn phân vân giữa `v = 1` và `v = 0` (ghi cả hai lựa chọn và lý do chọn):
-
-...
+- face_223746.jpg tôi đang phân vân là right_eye_inner và right_eye_outer để v = 1 hay 0
 
 ## 5. Kiểm file xuất và kết quả tự kiểm (CP4)
 
@@ -100,30 +103,43 @@ Hai job đã chuyển sang completed trên CVAT? Có / Không
 Dán phần **TÓM TẮT** in ra từ `src/check_submission.py`:
 
 ```text
-(dán ở đây)
+- File person: TranDucHoa_persons.zip
+  Số ảnh: 12 · số skeleton `person`: 19 · mỗi annotation 51 số
+  Skeleton theo ảnh: 000000091637=2, 000000100510=2, 000000147780=2, 000000156986=2, 000000211458=1, 000000241837=1, 000000297227=2, 000000309169=3, 000000314154=1, 000000349521=1, 000000365099=1, 000000515309=1
+  Cờ v: v=2 221 (68%) · v=1 40 (12%) · v=0 62 (19%)
+  num_keypoints trung bình: 13.7
+- File face: TranDucHoa_faces.zip
+  Số ảnh: 8 · số skeleton `face`: 8 · mỗi annotation 39 số
+  Skeleton theo ảnh: face_10579=1, face_223746=1, face_359139=1, face_380639=1, face_483667=1, face_505385=1, face_81239=1, face_99874=1
+  Cờ v: v=2 88 (85%) · v=1 4 (4%) · v=0 12 (12%)
+  num_keypoints trung bình: 11.5
+- Ghi chú: 74 điểm v = 0 vẫn mang tọa độ cũ (CVAT 2.x xuất như vậy; chuẩn COCO ghi 0, 0). Không phải lỗi: điểm v = 0 bị bỏ qua khi huấn luyện và khi chấm.
+- Số [LỖI]: 0 · số [CẢNH BÁO]: 1
+Kết quả: ĐẠT (đọc lại từng cảnh báo ở trên)
 ```
 
 Các `[CẢNH BÁO]` còn giữ nguyên và lý do:
-
+ [CẢNH BÁO] 000000309169.jpg #2: cặp hip, knee, ankle nằm ngược phía so với các cặp còn lại. Có thể đổi trái/phải một cặp (`lr_swap`), hoặc tay / chân bắt chéo thật: kiểm lại.
+ Lý do ảnh đấy có 1 người quay lưng và hai người nhìn về phía trước không phải lỗi
 ...
 
 ## 6. Ảnh chụp màn hình
 
 1. Label `person` trong label constructor (đủ 17 điểm có tên):
 
-   ![Label person](images/1_label_person.png)
+   ![Label person](K5-L2A-DAY04-TranDucHoa-2A202603181-KeypointPose-Student/1.png)
 
 2. Một người quay lưng đã gán, cờ đã đặt:
 
-   ![Người quay lưng](images/2_nguoi_quay_lung.png)
+   ![Người quay lưng](K5-L2A-DAY04-TranDucHoa-2A202603181-KeypointPose-Student/2.png)
 
 3. Một khuôn mặt đã gán 13 điểm, phóng to vùng mắt:
 
-   ![Khuôn mặt phóng to](images/3_mat_phong_to.png)
+   ![Khuôn mặt phóng to](K5-L2A-DAY04-TranDucHoa-2A202603181-KeypointPose-Student/3.png)
 
 4. Một đoạn JSON xuất của một người:
 
-   ![JSON export](images/4_json_export.png)
+   ![JSON export](K5-L2A-DAY04-TranDucHoa-2A202603181-KeypointPose-Student/4.png)
 
 Nguồn ảnh: COCO val2017 / Wikimedia Commons.
 
@@ -131,15 +147,15 @@ Nguồn ảnh: COCO val2017 / Wikimedia Commons.
 
 1. Lỗi bạn mắc nhiều nhất hôm nay, và cách bạn sẽ tránh ở dự án thật:
 
-   ...
+   Lỗi missing
 
 2. Một quy tắc bạn đề xuất thêm vào guideline (kèm ảnh ví dụ nếu có):
 
-   ...
+   
 
 3. Nhãn của bạn đi vào model ở đâu? Chọn một lỗi bạn đã sửa và nói nó sẽ làm model học sai thế nào (heatmap, trọng số trong loss, hay bước lật ảnh):
 
-   ...
+   
 
 ## 8. Khó khăn và lỗi kỹ thuật
 
