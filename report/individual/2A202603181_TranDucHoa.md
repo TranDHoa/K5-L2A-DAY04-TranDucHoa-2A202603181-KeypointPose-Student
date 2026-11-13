@@ -92,8 +92,8 @@ Tự kiểm tay trong file JSON:
 
 | File | Người / mặt kiểm (ảnh, thứ tự) | Số phần tử `keypoints` | Điểm `outside` ra `v = 0`, `occluded` ra `v = 1`? | `num_keypoints` khớp? |
 |---|---|---:|---|---|
-| `TranDucHoa_persons.zip` | 000000091637.jpg, người #1 | 51 | 000000091637.jpg, người #1 | Có |
-| `TranDucHoa_persons.zip` | 000000515309.jpg, người #2 | 51 | JSON: 9 điểm v=0, 8 điểm v=2 | |
+| `TranDucHoa_persons.zip` | 000000091637.jpg, người #1 | 51 | JSON: 2 điểm v=0, 15 điểm v=1 | Có |
+| `TranDucHoa_persons.zip` | 000000515309.jpg, người #2 | 51 | JSON: 9 điểm v=0, 8 điểm v=2 | Có |
 
 Sau khi xuất, CVAT ghi `occluded` thành `v = 1` và `outside` thành `v = 0`. Tọa độ của điểm `outside` trong file là `0, 0` hay tọa độ cũ? Tọa độ cũ
 
@@ -118,8 +118,8 @@ Kết quả: ĐẠT (đọc lại từng cảnh báo ở trên)
 ```
 
 Các `[CẢNH BÁO]` còn giữ nguyên và lý do:
- [CẢNH BÁO] 000000309169.jpg #2: cặp hip, knee, ankle nằm ngược phía so với các cặp còn lại. Có thể đổi trái/phải một cặp (`lr_swap`), hoặc tay / chân bắt chéo thật: kiểm lại.
- Lý do ảnh đấy có 1 người quay lưng và hai người nhìn về phía trước không phải lỗi
+- [CẢNH BÁO] 000000309169.jpg #2: cặp hip, knee, ankle nằm ngược phía so với các cặp còn lại. Có thể đổi trái/phải một cặp (`lr_swap`), hoặc tay / chân bắt chéo thật: kiểm lại.
+- Lý do ảnh đấy có 1 người quay lưng và hai người nhìn về phía trước không phải lỗi
 ...
 
 ## 6. Ảnh chụp màn hình
