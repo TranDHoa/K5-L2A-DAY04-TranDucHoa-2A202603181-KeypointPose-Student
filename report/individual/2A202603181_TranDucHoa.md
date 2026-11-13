@@ -34,12 +34,12 @@ Cách đổi cờ `occluded` / `outside` cho **một điểm** trên phiên bả
 
 | Nhóm ảnh | Số ảnh | Số skeleton đã gán | Số người dưới 60 px (không gán) | Số poster / gương / màn hình bỏ qua | Thời gian (phút) |
 |---|---:|---:|---:|---:|---:|
-| `easy` | 5 | 5 |  |  | |
-| `occluded` | 3 |  |  | | |
-| `back` | 2 | 2 |  | | |
-| `small` | 1 | 1 | | | |
-| `crowd` | 1 | 1 | | | |
-| `faces` | 8 | 8 | — | | |
+| `easy` | 5 | 6 | 1 | 0 | |
+| `occluded` | 3 | 5 | 0  | | |
+| `back` | 2 | 4 | 0 | 0 | |
+| `small` | 1 | 2 | 1 | 0 | |
+| `crowd` | 1 | 3 | 2 | 0 | |
+| `faces` | 8 | 8 | 0 | 0 | |
 
 - Số ảnh người đã xong ở mốc phút 105:  / 10
 - Thời gian thực tế (phút): CP1 ___ · CP2 ___ · CP3 ___
@@ -51,8 +51,8 @@ Mỗi điểm bạn phân vân một dòng, nhất là phân vân giữa `v = 1`
 
 | Ảnh | Người / mặt | Điểm | Cờ đã chọn | Phân vân giữa | Lý do chọn |
 |---|---|---|---:|---|---|
-| face_223746.jpg | Mặt | right_eye_inner | 1 | 0 | Không nhìn thấy phần đó  |
-| face_223746.jpg | Mặt | right_eye_outer | 1 | 0 | Không nhìn thấy phần đó  |
+| face_223746.jpg | Mặt | right_eye_inner | 1 | v=1 và v=0 | Không nhìn trực tiếp được điểm. Tôi chọn v=1 vì cho rằng có thể ước lượng vị trí từ cấu trúc vùng mắt; cần kiểm tra lại mức độ chắc chắn trên ảnh gốc.  |
+| face_223746.jpg | Mặt | right_eye_outer | 1 | v=1 và v=0 | Điểm khó nhìn thấy; tôi chọn v=1 theo ước lượng từ vị trí khóe mắt và các mốc xung quanh. Nếu không thể xác định đáng tin cậy thì cần đổi thành v=0. |
 | | | | | | |
 | | | | | | |
 
@@ -64,7 +64,7 @@ Mã lỗi dùng đúng một trong: `lr_swap`, `vis_flag`, `position`, `missing`
 
 | Ảnh | Người / mặt | Điểm | Mã lỗi | Ghi chú | Đã sửa? |
 |---|---|---|---|---|---|
-| 000000100510.jpg | Người |  | missing | quên label | Đã sửa |
+| 000000100510.jpg | Người | Toàn skeleton/nhãn bị bỏ sót | missing | quên label | Đã sửa |
 | 000000515309.jpg | Người | ok | ok | ok | ok |
 | 000000365099.jpg | Người | ok | ok | ok | ok |
 | 000000349521.jpg | Người | ok | ok | ok | ok |
@@ -81,7 +81,7 @@ Tổng hợp số lỗi theo mã:
 
 | `lr_swap` | `vis_flag` | `position` | `missing` | `extra` | `ok` |
 |---:|---:|---:|---:|---:|---:|
-| 0 | 0 | 0 | 1 | 0 | 1 |
+| 0 | 0 | 0 | 1 | 0 | 7 |
 
 Điểm còn phân vân giữa `v = 1` và `v = 0` (ghi cả hai lựa chọn và lý do chọn):
 - face_223746.jpg tôi đang phân vân là right_eye_inner và right_eye_outer để v = 1 hay 0
@@ -92,11 +92,10 @@ Tự kiểm tay trong file JSON:
 
 | File | Người / mặt kiểm (ảnh, thứ tự) | Số phần tử `keypoints` | Điểm `outside` ra `v = 0`, `occluded` ra `v = 1`? | `num_keypoints` khớp? |
 |---|---|---:|---|---|
-| `HoVaTen_persons.zip` | | | | |
-| `HoVaTen_persons.zip` | | | | |
-| `HoVaTen_faces.zip` | | | | |
+| `TranDucHoa_persons.zip` | 000000091637.jpg, người #1 | 51 | 000000091637.jpg, người #1 | Có |
+| `TranDucHoa_persons.zip` | 000000515309.jpg, người #2 | 51 | JSON: 9 điểm v=0, 8 điểm v=2 | |
 
-Sau khi xuất, CVAT ghi `occluded` thành `v = ___` và `outside` thành `v = ___`. Tọa độ của điểm `outside` trong file là `0, 0` hay tọa độ cũ? ___
+Sau khi xuất, CVAT ghi `occluded` thành `v = 1` và `outside` thành `v = 0`. Tọa độ của điểm `outside` trong file là `0, 0` hay tọa độ cũ? Tọa độ cũ
 
 Hai job đã chuyển sang completed trên CVAT? Có / Không
 
@@ -104,16 +103,16 @@ Dán phần **TÓM TẮT** in ra từ `src/check_submission.py`:
 
 ```text
 - File person: TranDucHoa_persons.zip
-  Số ảnh: 12 · số skeleton `person`: 19 · mỗi annotation 51 số
-  Skeleton theo ảnh: 000000091637=2, 000000100510=2, 000000147780=2, 000000156986=2, 000000211458=1, 000000241837=1, 000000297227=2, 000000309169=3, 000000314154=1, 000000349521=1, 000000365099=1, 000000515309=1
-  Cờ v: v=2 221 (68%) · v=1 40 (12%) · v=0 62 (19%)
-  num_keypoints trung bình: 13.7
+  Số ảnh: 12 · số skeleton `person`: 20 · mỗi annotation 51 số
+  Skeleton theo ảnh: 000000091637=2, 000000100510=2, 000000147780=2, 000000156986=2, 000000211458=1, 000000241837=1, 000000297227=2, 000000309169=3, 000000314154=1, 000000349521=1, 000000365099=1, 000000515309=2
+  Cờ v: v=2 229 (67%) · v=1 40 (12%) · v=0 71 (21%)
+  num_keypoints trung bình: 13.4
 - File face: TranDucHoa_faces.zip
   Số ảnh: 8 · số skeleton `face`: 8 · mỗi annotation 39 số
   Skeleton theo ảnh: face_10579=1, face_223746=1, face_359139=1, face_380639=1, face_483667=1, face_505385=1, face_81239=1, face_99874=1
   Cờ v: v=2 88 (85%) · v=1 4 (4%) · v=0 12 (12%)
   num_keypoints trung bình: 11.5
-- Ghi chú: 74 điểm v = 0 vẫn mang tọa độ cũ (CVAT 2.x xuất như vậy; chuẩn COCO ghi 0, 0). Không phải lỗi: điểm v = 0 bị bỏ qua khi huấn luyện và khi chấm.
+- Ghi chú: 83 điểm v = 0 vẫn mang tọa độ cũ (CVAT 2.x xuất như vậy; chuẩn COCO ghi 0, 0). Không phải lỗi: điểm v = 0 bị bỏ qua khi huấn luyện và khi chấm.
 - Số [LỖI]: 0 · số [CẢNH BÁO]: 1
 Kết quả: ĐẠT (đọc lại từng cảnh báo ở trên)
 ```
@@ -127,19 +126,20 @@ Các `[CẢNH BÁO]` còn giữ nguyên và lý do:
 
 1. Label `person` trong label constructor (đủ 17 điểm có tên):
 
-   ![Label person](K5-L2A-DAY04-TranDucHoa-2A202603181-KeypointPose-Student/1.png)
+   ![Label person](../individual/images/1_label_person.png)
 
 2. Một người quay lưng đã gán, cờ đã đặt:
 
-   ![Người quay lưng](K5-L2A-DAY04-TranDucHoa-2A202603181-KeypointPose-Student/2.png)
+   ![Người quay lưng](../individual/images/2_nguoi_quay_lung.png)
 
 3. Một khuôn mặt đã gán 13 điểm, phóng to vùng mắt:
 
-   ![Khuôn mặt phóng to](K5-L2A-DAY04-TranDucHoa-2A202603181-KeypointPose-Student/3.png)
+   ![Khuôn mặt phóng to](../individual/images/3_mat_phong_to.png)
 
 4. Một đoạn JSON xuất của một người:
 
-   ![JSON export](K5-L2A-DAY04-TranDucHoa-2A202603181-KeypointPose-Student/4.png)
+   ![JSON export](../individual/images/4_json_export.png)
+
 
 Nguồn ảnh: COCO val2017 / Wikimedia Commons.
 
@@ -151,11 +151,11 @@ Nguồn ảnh: COCO val2017 / Wikimedia Commons.
 
 2. Một quy tắc bạn đề xuất thêm vào guideline (kèm ảnh ví dụ nếu có):
 
-   
+   Tôi đề xuất bổ sung hướng dẫn riêng cho mắt nhắm/híp và mốc mắt bị che: không tự động đánh occluded cho toàn bộ mắt. Với từng keypoint, chọn v=2 khi nhìn thấy mốc, v=1 khi bị che nhưng suy ra được vị trí chắc chắn, và v=0 khi không thể xác định đáng tin cậy. Trường hợp tôi gặp là right_eye_inner và right_eye_outer ở face_223746.jpg.
 
 3. Nhãn của bạn đi vào model ở đâu? Chọn một lỗi bạn đã sửa và nói nó sẽ làm model học sai thế nào (heatmap, trọng số trong loss, hay bước lật ảnh):
 
-   
+   Nếu một skeleton người bị bỏ sót trong dữ liệu, model sẽ không nhận được các mục tiêu keypoint/heatmap và tín hiệu loss tương ứng từ đối tượng đó. Việc bỏ sót làm giảm dữ liệu giám sát cho tư thế xuất hiện trong ảnh và có thể khiến mô hình học kém hơn ở những trường hợp tương tự. Tôi đã bổ sung nhãn thiếu trước khi xuất bản nộp.
 
 ## 8. Khó khăn và lỗi kỹ thuật
 
@@ -201,5 +201,5 @@ Kết quả `src/check_submission.py` cho `HoVaTen_bonus_persons.zip`:
    ...
 
 ## 9. Tài liệu tham khảo và công cụ AI đã dùng
-
+AI đã dùng: ChatGPT (OpenAI)
 ...
